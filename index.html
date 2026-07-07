@@ -63,7 +63,6 @@
       transition: background 0.8s ease, color 0.8s ease;
     }
 
-/* ── FINAL STACK CARD CSS ── */
     .stack-card {
       position: absolute;
       inset: 0;
@@ -71,62 +70,19 @@
       transform: scale(0.96);
       transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
-      cursor: default;
     }
 
     .stack-card.active {
       opacity: 1;
       transform: scale(1);
       z-index: 10;
-      pointer-events: auto; /* Active card captures clicks */
-      cursor: pointer; /* Shows it's a link */
+      pointer-events: auto;
     }
 
     .stack-card.next {
       opacity: 0.35;
       transform: scale(1.05);
       z-index: 5;
-      pointer-events: auto; /* Allows clicking card behind to flip */
-      cursor: copy; 
-    }
-
-    /* THE FIX: Info box ignores clicks so they hit the card behind it */
-    .stack-card-info {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 24px;
-      z-index: 5;
-      pointer-events: none; 
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
-      color: #fff;
-    }
-
-    [data-theme="light"] .stack-card-info {
-      background: linear-gradient(to top, rgba(255, 255, 255, 0.9) 0%, transparent 100%);
-      color: #111;
-    }
-
-    /* Text styling */
-    .stack-card-info h2 { font-size: 22px; margin-bottom: 8px; }
-    .stack-card-info p {
-      font-size: 14px;
-      line-height: 1.5;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-
-    .stack-card-info .card-link {
-      color: #0071E3;
-      font-weight: 600;
-      opacity: 0.9;
-    }
-
-    .stack-card.active:hover .card-link {
-      text-decoration: underline;
-      transform: translateX(5px);
     }
 
     .stack-card.prev {
@@ -134,6 +90,7 @@
       transform: scale(0.92);
       z-index: 1;
     }
+
     /* ── RE-ENGINEERED LAMP TOGGLE ── */
     .lamp-wrap {
       position: fixed;
@@ -1365,7 +1322,8 @@
     <div class="hero-bg-orb orb2"></div>
     <p class="hero-eyebrow">CSE '24 — Second Year</p>
     <h1>Developer by <em>Logic.</em><br>Designer by Craft.</h1>
-    <p class="hero-sub">Engineering the logic. Crafting the interface. Building digital experiences where performance meets precision.</p>
+    <p class="hero-sub">2nd Year Computer Science Engineering student blending high-performance code with professional
+      visual design — building things that work beautifully.</p>
     <div class="hero-pills">
       <span class="hero-pill">TypeScript</span>
       <span class="hero-pill">React</span>
@@ -1493,12 +1451,7 @@
 
   <div class="divider"></div>
 
-  <!-- DESIGN PHILOSOPHY -->
-
   
-
-  <div class="divider"></div>
-
   <!-- CONTACT -->
   <section id="contact">
     <div class="contact-layout">
@@ -1527,7 +1480,7 @@
             <span class="link-arrow">›</span>
           </a>
 
-          <a href="https://www.linkedin.com/in/shivam-kumar-528b61380/" target="_blank" class="contact-link-item">
+          <a href="https://linkedin.com" target="_blank" class="contact-link-item">
             <div class="link-icon">in</div>
             <div class="link-body">
               <p class="link-label">LinkedIn</p>
@@ -1544,16 +1497,16 @@
           <div class="form-row">
             <div class="form-group">
               <label for="fname">First Name</label>
-              <input type="text" id="fname" placeholder="First Name" />
+              <input type="text" id="fname" placeholder="Alex" />
             </div>
             <div class="form-group">
               <label for="lname">Last Name</label>
-              <input type="text" id="lname" placeholder="Last Name" />
+              <input type="text" id="lname" placeholder="Johnson" />
             </div>
           </div>
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" id="email" placeholder="Email Address" />
+            <input type="email" id="email" placeholder="alex@email.com" />
           </div>
           <div class="form-group">
             <label for="subject">Subject</label>
@@ -1585,64 +1538,71 @@
         <a href="https://github.com/Shivam9754" target="_blank">GitHub</a>
       </div>
     </div>
+    <p class="footer-copy">© 2026 Shivam Kumar. Designed with precision. Built with intent.</p>
   </footer>
 
   <script>
-/* ── DARK MODE PULL CORD ── */
-const lamp = document.getElementById('lampToggle');
-const cord = document.getElementById('cord');
-const label = document.getElementById('lampLabel');
-const html = document.documentElement;
+    /* ── DARK MODE PULL CORD ── */
+    const lamp = document.getElementById('lampToggle');
+    const cord = document.getElementById('cord');
+    const label = document.getElementById('lampLabel');
+    const html = document.documentElement;
 
-const saved = localStorage.getItem('theme') || 'light';
-html.setAttribute('data-theme', saved);
-label.textContent = saved === 'dark' ? 'Dark' : 'Light';
+    const saved = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', saved);
+    label.textContent = saved === 'dark' ? 'Dark' : 'Light';
 
-lamp.addEventListener('click', () => {
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    cord.style.height = '90px';
-    setTimeout(() => {
+    lamp.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+
+      // Pull animation
+      cord.style.height = '90px';
+      setTimeout(() => {
         html.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
         label.textContent = next === 'dark' ? 'Dark' : 'Light';
         cord.style.height = '60px';
-    }, 150);
-});
+      }, 150);
+    });
 
-/* ── UPDATED STACKED CARD DATA (With Links) ── */
-// PASTE YOUR FIGMA LINKS IN THE 'link' SECTION BELOW
-const figmaData = [
-    { name: 'E-Commerce Checkout Card', desc: 'Minimalist layout with product preview.', img: 'figma/practice.jpg', link: 'https://www.figma.com/design/WehK5Lt34iiFTQErHFADfS/1?node-id=0-1&t=C9ifGvvnR4OjS5IE-1' },
-    { name: 'Natural Environment Hero', desc: 'Architectural photography landing page.', img: 'figma/practice1.jpg', link: 'https://www.figma.com/design/2OaqHpEQw3h4NIjhqB4EhY/Untitled?t=C9ifGvvnR4OjS5IE-1' },
-    { name: 'Ride-Hailing Receipt', desc: 'Dark-themed digital fare breakdown.', img: 'figma/practice2.jpg', link: 'https://www.figma.com/design/532G4VefSfmYffhWAw93aT/Untitled?node-id=301-12&t=C9ifGvvnR4OjS5IE-1' },
-    { name: 'Activity Dashboard', desc: 'Compact dark-theme user metrics.', img: 'figma/practice3.jpg', link: 'https://www.figma.com/design/AV8A6ee76Jb4qnmafCL2Ze/Untitled?node-id=0-1&t=C9ifGvvnR4OjS5IE-1' },
-    { name: 'Minimalist Workspace', desc: 'Clean three-column note-taking UI.', img: 'figma/practice4.jpg', link: 'https://www.figma.com/design/3RokVBrSpVYLP0fRaMB5zq/Notes?t=C9ifGvvnR4OjS5IE-1' }
-];
+    // Support keyboard activation for the theme pull toggle
+    lamp.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        lamp.click();
+      }
+    });
 
-// PASTE YOUR PHOTOSHOP LINKS (Behance/Drive) IN THE 'link' SECTION BELOW
-const photoshopData = [
-    { name: 'Electric Horizon', desc: 'Sports car under a lightning storm.', img: 'photoshop/Project 34.png', link: 'https://www.behance.net/gallery/252135451/Electric-Horizon' },
-    { name: 'Urban Fragment', desc: 'Mixed-media collage with muscle car.', img: 'photoshop/Project 48.png', link: 'https://www.behance.net/gallery/252135861/Urban-Fragment' },
-    { name: 'Moonlight Anchorage', desc: 'Atmospheric digital galleon scene.', img: 'photoshop/Project 29.png', link: 'https://www.behance.net/gallery/252135609/Moonlight-Anchorage' },
-    { name: 'Golden Hour Pause', desc: 'Nostalgic silhouette of a cyclist.', img: 'photoshop/Project 36.png', link: 'https://www.behance.net/gallery/252135745/Golden-Hour-Pause' },
-    { name: 'The Quiet Beacon', desc: 'Moody cinematic rural landscape.', img: 'photoshop/Project 35.png', link: 'https://www.behance.net/gallery/252135689/The-Quiet-Beacon' }
-];
+    /* ── STACKED CARD SLIDER ── */
+    const figmaData = [
+      { name: 'E-Commerce Checkout Card', desc: 'A clean and structured payment interface card featuring a minimalist layout, product preview, and simplified Visa checkout details.', img: 'figma/practice.jpg' },
+      { name: 'Natural Environment Hero Banner', desc: 'A website hero section design combining striking architectural photography with clear typography to create an eco-conscious digital landing page.', img: 'figma/practice1.jpg' },
+      { name: 'Ride-Hailing Receipt Card', desc: 'A dark-themed digital receipt showing driver details, fare breakdown, and transit statistics with high-contrast color accents.', img: 'figma/practice2.jpg' },
+      { name: 'Dark Mode Activity Dashboard', desc: ' A compact dark-theme dashboard designed to present personal user metrics, data charts, and profile options inside a soft gradient border.', img: 'figma/practice3.jpg' },
+      { name: 'Minimalist Workspace Interface', desc: 'A clean, light-themed note-taking app UI focusing on structured content hierarchy, readability, and a functional three-column layout.', img: 'figma/practice4.jpg' }
+    ];
 
-/* --- REPLACE THE WHOLE initStack FUNCTION WITH THIS --- */
+    const photoshopData = [
+      { name: 'Electric Horizon', desc: 'A high-contrast, dynamic scene featuring a sports car parked under a dramatic, lightning-charged storm sky.', img: 'photoshop/Project 34.png' },
+      { name: 'Urban Fragment', desc: 'A portrait-oriented mixed-media collage combining a modern muscle car with grunge textures, architectural sketches, and expressive blue paint splatters.', img: 'photoshop/Project 48.png' },
+      { name: 'Moonlight Anchorage', desc: 'An atmospheric digital composition blending a historic galleon with a misty, moonlit coastline to evoke a sense of quiet mystery.', img: 'photoshop/Project 29.png' },
+      { name: 'Golden Hour Pause', desc: 'A warm, nostalgic silhouette of a cyclist reflecting at sunset in a quiet, mist-covered rural setting.', img: 'photoshop/Project 36.png' },
+      { name: 'The Quiet Beacon', desc: 'A moody, cinematic landscape focusing on a misty rural road illuminated by the strong glow of a single streetlamp.', img: 'photoshop/Project 35.png' }
+    ];
 
+    function initStack(stackId, navId, items) {
+      const stack = document.getElementById(stackId);
+      const nav = document.getElementById(navId);
+      let current = 0;
 
-function initStack(stackId, navId, items) {
-    const stack = document.getElementById(stackId);
-    const nav = document.getElementById(navId);
-    let current = 0;
-    const cards = [];
+      const cards = [];
 
-    items.forEach((item, i) => {
+      // create cards + dots
+      items.forEach((item, i) => {
         const card = document.createElement('div');
         card.className = 'stack-card';
-        // We store the URL directly on the card element
-        card.setAttribute('data-project-url', item.link);
-        
+
+        // Corrected paragraph element styles in template literal
         card.innerHTML = `
           <div class="stack-card-preview">
             <img src="${item.img}" alt="${item.name}" loading="lazy">
@@ -1650,67 +1610,72 @@ function initStack(stackId, navId, items) {
           <div class="stack-card-info">
             <h2>${item.name}</h2>
             <p>${item.desc}</p>
-            <div class="card-link" style="color: #0071E3; margin-top:12px; font-weight:600;">
-               View Project ›
-            </div>
           </div>
         `;
+
         stack.appendChild(card);
 
-        // --- THE "WHOLE TEMPLATE" LINK LOGIC ---
-        card.addEventListener('mousedown', (e) => {
-            // 1. If clicking a Nav Dot, do nothing (let the dot handler work)
-            if (e.target.closest('.nav-dot')) return;
-
-            // 2. If the card is ACTIVE: Open the project link
-            if (card.classList.contains('active')) {
-                const url = card.getAttribute('data-project-url');
-                console.log("Active card clicked. Opening:", url);
-                
-                if (url && url !== '#') {
-                    window.open(url, '_blank');
-                } else {
-                    console.log("No URL assigned to this card yet.");
-                }
-            } 
-            // 3. If the card is NEXT (underneath): Flip the stack
-            else if (card.classList.contains('next')) {
-                console.log("Next card clicked. Flipping stack.");
-                current = (current + 1) % items.length;
-                update();
-            }
-        });
-
-        // Navigation dots
         const dot = document.createElement('div');
         dot.className = 'nav-dot';
-        dot.addEventListener('mousedown', (e) => {
-            e.stopPropagation();
-            current = i;
-            update();
+
+        // Make the slider dots interactive
+        dot.addEventListener('click', (e) => {
+          e.stopPropagation(); // Avoid triggering card click
+          current = i;
+          update();
         });
+
         nav.appendChild(dot);
         cards.push({ card, dot });
-    });
+      });
 
-    function update() {
+      function update() {
         cards.forEach((c, i) => {
-            c.card.classList.remove('active', 'next', 'prev');
-            if (i === current) {
-                c.card.classList.add('active');
-                c.dot.classList.add('active');
-            } else {
-                c.dot.classList.remove('active');
-            }
-            if (i === (current + 1) % items.length) c.card.classList.add('next');
-            if (i === (current - 1 + items.length) % items.length) c.card.classList.add('prev');
-        });
-    }
-    update();
-}
+          c.card.classList.remove('active', 'next', 'prev');
 
-initStack('figma-stack', 'figma-nav', figmaData);
-initStack('photoshop-stack', 'photoshop-nav', photoshopData);
+          if (i === current) {
+            c.card.classList.add('active');
+            c.dot.classList.add('active');
+          }
+          else {
+            c.dot.classList.remove('active');
+          }
+
+          if (i === (current + 1) % items.length) {
+            c.card.classList.add('next');
+          }
+
+          if (i === (current - 1 + items.length) % items.length) {
+            c.card.classList.add('prev');
+          }
+        });
+      }
+
+      update();
+
+      // autoplay
+      let interval = setInterval(() => {
+        current = (current + 1) % items.length;
+        update();
+      }, 4000);
+
+      stack.addEventListener('mouseenter', () => clearInterval(interval));
+
+      stack.addEventListener('mouseleave', () => {
+        interval = setInterval(() => {
+          current = (current + 1) % items.length;
+          update();
+        }, 4000);
+      });
+
+      stack.addEventListener('click', () => {
+        current = (current + 1) % items.length;
+        update();
+      });
+    }
+
+    initStack('figma-stack', 'figma-nav', figmaData);
+    initStack('photoshop-stack', 'photoshop-nav', photoshopData);
 
     /* ── SCROLL FADE-IN ── */
     const obs = new IntersectionObserver(entries => {
@@ -1729,54 +1694,26 @@ initStack('photoshop-stack', 'photoshop-nav', photoshopData);
       });
     });
 
-      /* contact form */
     /* ── CONTACT FORM ── */
-    document.getElementById('submitBtn').addEventListener('click', function(e) {
-      // 1. Grab values
+    document.getElementById('submitBtn').addEventListener('click', () => {
       const fname = document.getElementById('fname').value.trim();
-      const lname = document.getElementById('lname').value.trim();
       const email = document.getElementById('email').value.trim();
-      const subject = document.getElementById('subject').value.trim() || 'Portfolio Contact';
       const msg = document.getElementById('msg').value.trim();
-
-      // 2. Validation
       if (!fname || !email || !msg) {
         document.getElementById('fname').style.borderColor = !fname ? '#FF3B30' : '';
         document.getElementById('email').style.borderColor = !email ? '#FF3B30' : '';
         document.getElementById('msg').style.borderColor = !msg ? '#FF3B30' : '';
-        console.log("Validation failed: Missing fields");
         return;
       }
-
-      // 3. Reset borders
+      // Reset borders
       ['fname', 'email', 'msg'].forEach(id => document.getElementById(id).style.borderColor = '');
-
-      // 4. Format Email
-      const bodyText = `Name: ${fname} ${lname}\nEmail: ${email}\n\nMessage:\n${msg}`;
-      const mailtoLink = `mailto:skshivam9754@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
-
-      // 5. THE FIX: Create a hidden link and click it
-      const tempLink = document.createElement('a');
-      tempLink.href = mailtoLink;
-      tempLink.style.display = 'none';
-      document.body.appendChild(tempLink);
-      
-      console.log("Triggering email client...");
-      tempLink.click(); // This simulates a real human click
-      
-      // Clean up the temporary link
-      document.body.removeChild(tempLink);
-
-      // 6. UI Feedback
+      // Build mailto
+      const sub = document.getElementById('subject').value || 'Portfolio Contact';
+      const lname = document.getElementById('lname').value;
+      const body = `From: ${fname} ${lname}\nEmail: ${email}\n\n${msg}`;
+      window.location.href = `mailto:skshivam9754@gmail.com?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
       document.getElementById('formSuccess').classList.add('show');
-      
-      // We clear the form AFTER a small delay so you can see it working
-      setTimeout(() => {
-        document.getElementById('formSuccess').classList.remove('show');
-        document.getElementById('subject').value = '';
-        document.getElementById('msg').value = '';
-        console.log("Form reset.");
-      }, 3000);
+      setTimeout(() => document.getElementById('formSuccess').classList.remove('show'), 5000);
     });
 
     /* ── BENTO CANVAS ART ── */
