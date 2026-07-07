@@ -117,7 +117,6 @@
       font-size: 28px;
       display: inline-block;
       transform: rotate(180deg);
-      /* Turned upside down */
       filter: grayscale(1) opacity(0.3);
       transition: all 0.4s ease;
       margin-top: -2px;
@@ -135,37 +134,6 @@
       text-transform: uppercase;
       color: var(--mid);
       margin-top: 8px;
-    }
-
-    /* ── THEME TRANSITION OVERLAY ── */
-    #theme-overlay {
-      position: fixed;
-      top: 30px;
-      /* Aligned with bulb */
-      right: 138px;
-      width: 0;
-      height: 0;
-      background: var(--jet);
-      /* Dynamic */
-      border-radius: 50%;
-      z-index: 999;
-      pointer-events: none;
-      opacity: 0;
-      transform: translate(50%, -50%);
-    }
-
-    @keyframes themeFlash {
-      0% {
-        width: 0;
-        height: 0;
-        opacity: 1;
-      }
-
-      100% {
-        width: 300vmax;
-        height: 300vmax;
-        opacity: 0;
-      }
     }
 
     /* ── NAV ── */
@@ -516,20 +484,9 @@
       transition: background var(--transition), color var(--transition);
     }
 
-    .lang-pill.ts {
-      color: #3178C6;
-      background: rgba(49, 120, 198, 0.12);
-    }
-
-    .lang-pill.js {
-      color: #d4a017;
-      background: rgba(212, 160, 23, 0.12);
-    }
-
-    .lang-pill.py {
-      color: #3572A5;
-      background: rgba(53, 114, 165, 0.12);
-    }
+    .lang-pill.ts { color: #3178C6; background: rgba(49, 120, 198, 0.12); }
+    .lang-pill.js { color: #d4a017; background: rgba(212, 160, 23, 0.12); }
+    .lang-pill.py { color: #3572A5; background: rgba(53, 114, 165, 0.12); }
 
     .repo-meta {
       font-size: 12px;
@@ -573,22 +530,9 @@
     }
 
     /* ── VISUAL SECTION ── */
-
     #visual {
       background: var(--bg);
       transition: background var(--transition);
-    }
-
-    #visual .section-title {
-      color: var(--jet);
-    }
-
-    #visual .section-desc {
-      color: var(--mid);
-    }
-
-    #visual .section-label {
-      color: var(--blue);
     }
 
     .bento-grid {
@@ -607,52 +551,63 @@
       align-items: flex-end;
       background: var(--bg-card);
       border: 1px solid var(--light);
-      transition:
-        background var(--transition),
-        border-color var(--transition);
+      transition: background var(--transition), border-color var(--transition);
+      text-decoration: none;
     }
 
-    .bento-cell.large {
-      grid-row: span 2;
+    .bento-cell.large { grid-row: span 2; }
+
+    /* New Cell Content Styling */
+    .bento-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+        z-index: 1;
     }
 
-
-    [data-theme="dark"] .bento-cell::after {
-      background:
-        linear-gradient(to top,
-          rgba(0, 0, 0, 0.75) 0%,
-          transparent 55%);
+    .bento-cell:hover .bento-img {
+        transform: scale(1.03);
     }
 
+    /* Clean, non-whitewashing dark-gradient overlay */
     .bento-cell::after {
       content: '';
       position: absolute;
       inset: 0;
       pointer-events: none;
+      z-index: 2;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 70%);
+    }
+
+    [data-theme="dark"] .bento-cell::after {
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 70%);
     }
 
     .bento-caption {
       position: relative;
-      z-index: 2;
+      z-index: 5;
       padding: 26px 30px;
+      width: 100%;
     }
 
-    [data-theme="light"] .bento-caption h3 {
-      color: #111;
+    /* Caption contrast text colors over dark gradient overlay */
+    .bento-caption h3 { 
+      color: #FFFFFF !important; 
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .bento-caption p { 
+      color: rgba(255, 255, 255, 0.8) !important; 
+      font-size: 14px;
+      line-height: 1.5;
     }
 
-    [data-theme="light"] .bento-caption p {
-      color: #444;
-    }
-
-    [data-theme="dark"] .bento-caption h3 {
-      color: #fff;
-    }
-
-    [data-theme="dark"] .bento-caption p {
-      color: rgba(255, 255, 255, .7);
-    }
-
+    /* Matte glassmorphic badge tag styling */
     .bento-tag {
       display: inline-block;
       font-size: 10px;
@@ -663,25 +618,15 @@
       border-radius: 999px;
       margin-bottom: 9px;
       backdrop-filter: blur(6px);
+      background: rgba(255, 255, 255, 0.15); 
+      color: rgba(255, 255, 255, 0.9);
     }
 
-    [data-theme="light"] .bento-tag {
-      background: rgba(0, 113, 227, .1);
-      color: var(--blue);
-    }
-
-    [data-theme="dark"] .bento-tag {
-      background: rgba(255, 255, 255, .13);
-      color: rgba(255, 255, 255, .9);
-    }
-
-    /* Floating header labels inside bento columns */
     .bento-header-tag {
       position: absolute;
       top: 20px;
       left: 20px;
       z-index: 40;
-      /* High z-index to stay above elements */
       display: inline-block;
       font-size: 10px;
       font-weight: 700;
@@ -694,604 +639,95 @@
       pointer-events: none;
     }
 
-    [data-theme="light"] .bento-header-tag {
-      background: rgba(0, 113, 227, .1);
-      color: var(--blue);
-    }
-
-    [data-theme="dark"] .bento-header-tag {
-      background: rgba(255, 255, 255, .13);
-      color: rgba(255, 255, 255, .9);
-    }
+    [data-theme="light"] .bento-header-tag { background: rgba(0, 113, 227, .1); color: var(--blue); }
+    [data-theme="dark"] .bento-header-tag { background: rgba(255, 255, 255, .13); color: rgba(255, 255, 255, .9); }
 
     /* ── STACKED CARDS ── */
-    .bento-cell.scrolling-cell {
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      perspective: 1000px;
-    }
+    .bento-cell.scrolling-cell { flex-direction: column; align-items: center; justify-content: center; padding: 0; perspective: 1000px; }
+    .stack-container { width: 100%; height: 100%; position: relative; }
+    .stack-card-preview { flex: 1; background: #000; position: relative; overflow: hidden; }
+    .stack-card-preview img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.8s ease; }
+    .stack-card:hover .stack-card-preview img { transform: scale(1.04); }
 
-    .stack-container {
-      width: 100%;
-      height: 100%;
-      position: relative;
-    }
+    /* FIX: Focuses the crop center at 85% depth to align and center the sports car dynamically */
+   #photoshop-stack .stack-card-preview img {
+  object-fit: cover !important;
 
-    .stack-card {
-      position: absolute;
-      inset: 0;
-      background: var(--bg-card);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-      cursor: pointer;
-      opacity: 0;
-      transform: scale(0.95);
-      pointer-events: none;
-    }
+  /* 1. MANUAL ZOOM LEVEL (e.g., 0.9 to zoom out, 1.1 to zoom in) */
+  transform: scale() !important; 
 
-    .stack-card.active {
-      opacity: 1;
-      transform: scale(1);
-      pointer-events: auto;
-      z-index: 10;
-    }
+  /* 2. MANUAL VERTICAL POSITION */
+  /* Change the percentage (e.g. 80%, 90%, 95%, 100%) to slide the image up/down 
+     until the car is perfectly framed in the center. */
+  object-position: center 90% !important; 
+}
+/* 1. Fix "Electric Horizon" (Car under lightning storm) */
+#photoshop-stack img[src*="Project 34"] {
+  object-fit: cover !important;
+  /* Adjust this percentage (e.g., 85% to 95%) to slide the car vertically into the center */
+  object-position: center 90% !important; 
+}
 
-    .stack-card.next {
-      opacity: 0;
-      transform: scale(1.05);
-      /* Zoom in effect for next card */
-      z-index: 5;
-    }
+/* 2. Fix "Urban Fragment" (Portrait collage with the muscle car) */
+/* Since this image is vertical/portrait, standard cropping zooms it in too close. 
+   Using "contain" displays the full design without any awkward cropping. */
+#photoshop-stack img[src*="Project 48"] {
+  object-fit: contain !important;
+  background-color: #08080f !important; /* Blends seamlessly with your dark bento background */
+}
 
-    .stack-card-preview {
-      flex: 1;
-      background: #000;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stack-card-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* ── STACK CARD OVERLAY (Cleaner & Image-Focused) ── */
-
-    .stack-card-info {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 24px;
-      background: linear-gradient(to top,
-          rgba(0, 0, 0, 0.72) 0%,
-          rgba(0, 0, 0, 0.35) 45%,
-          transparent 100%);
-      color: #fff;
-      z-index: 2;
-    }
-
-    .stack-card-info h2,
-    .stack-card-info h4 {
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-      color: #fff;
-    }
-
-    .stack-card-info p {
-      font-size: 14px !important;
-      line-height: 1.5 !important;
-      font-weight: 400;
-      color: rgba(255, 255, 255, 0.78) !important;
-      max-width: 85%;
-      margin: 0 !important;
-    }
-
-    /* Light Theme Support */
-
-    [data-theme="light"] .stack-card-info {
-      background: linear-gradient(to top,
-          rgba(255, 255, 255, 0.92) 0%,
-          rgba(255, 255, 255, 0.55) 45%,
-          transparent 100%);
-    }
-
-    [data-theme="light"] .stack-card-info h2,
-    [data-theme="light"] .stack-card-info h4 {
-      color: #111;
-    }
-
-    [data-theme="light"] .stack-card-info p {
-      color: rgba(0, 0, 0, 0.7) !important;
-    }
-
-    /* Image Focus */
-
-    .stack-card-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.8s ease;
-    }
-
-    .stack-card:hover .stack-card-preview img {
-      transform: scale(1.04);
-    }
-
-    .stack-nav {
-      position: absolute;
-      bottom: 24px;
-      right: 40px;
-      display: flex;
-      gap: 12px;
-      z-index: 30;
-    }
-
-    .nav-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      transition: all 0.4s ease;
-      cursor: pointer;
-    }
-
-    .nav-dot.active {
-      background: #fff;
-      transform: scale(1.2);
-    }
-
-    /* ── PAPERS ── */
-    #design {
-      background: var(--bg);
-    }
-
-    .papers-wrapper {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .paper-item {
-      padding: 44px 0;
-      border-bottom: 1px solid var(--light);
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 40px;
-      transition: border-color var(--transition);
-    }
-
-    .paper-item:first-child {
-      border-top: 1px solid var(--light);
-    }
-
-    .paper-num {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--mid);
-      letter-spacing: 0.06em;
-      min-width: 32px;
-      margin-top: 4px;
-      transition: color var(--transition);
-    }
-
-    .paper-body {
-      flex: 1;
-    }
-
-    .paper-tag {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: 10px;
-      transition: color var(--transition);
-    }
-
-    .paper-body h3 {
-      font-size: 21px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--jet);
-      line-height: 1.25;
-      margin-bottom: 10px;
-      transition: color var(--transition);
-    }
-
-    .paper-body p {
-      font-size: 14px;
-      color: var(--mid);
-      line-height: 1.65;
-      max-width: 520px;
-      transition: color var(--transition);
-    }
-
-    .paper-action {
-      flex-shrink: 0;
-      padding-top: 4px;
-    }
-
-    .btn-read {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--blue);
-      border: 1.5px solid var(--blue);
-      padding: 9px 20px;
-      border-radius: 980px;
-      text-decoration: none;
-      transition: background 0.2s, color 0.2s, border-color var(--transition);
-      white-space: nowrap;
-    }
-
-    .btn-read:hover {
-      background: var(--blue);
-      color: #fff;
-    }
+    .stack-nav { position: absolute; bottom: 24px; right: 40px; display: flex; gap: 12px; z-index: 30; }
+    .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transition: all 0.4s ease; cursor: pointer; }
+    .nav-dot.active { background: #fff; transform: scale(1.2); }
 
     /* ── CONTACT ── */
-    #contact {
-      background: var(--bg-alt);
-    }
+    #contact { background: var(--bg-alt); }
+    .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .contact-info h2 { font-size: 38px; font-weight: 700; letter-spacing: -0.03em; color: var(--jet); margin-bottom: 16px; line-height: 1.1; transition: color var(--transition); }
+    .contact-info p { font-size: 16px; color: var(--mid); line-height: 1.7; margin-bottom: 36px; transition: color var(--transition); }
+    .contact-links { display: flex; flex-direction: column; gap: 14px; }
+    .contact-link-item { display: flex; align-items: center; gap: 14px; padding: 16px 20px; border-radius: var(--radius-sm); background: var(--bg-card); border: 1px solid var(--light); text-decoration: none; transition: border-color 0.2s, transform 0.15s, background var(--transition), border-color var(--transition); }
+    .contact-link-item:hover { border-color: var(--blue); transform: translateX(4px); }
+    .link-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--bg-alt); display: flex; align-items: center; justify-content: center; font-size: 18px; transition: background var(--transition); flex-shrink: 0; }
+    .link-body { flex: 1; }
+    .link-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mid); margin-bottom: 2px; transition: color var(--transition); }
+    .link-value { font-size: 14px; font-weight: 500; color: var(--jet); transition: color var(--transition); }
+    .link-arrow { color: var(--blue); font-size: 18px; }
 
-    .contact-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: start;
-    }
-
-    .contact-info h2 {
-      font-size: 38px;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      color: var(--jet);
-      margin-bottom: 16px;
-      line-height: 1.1;
-      transition: color var(--transition);
-    }
-
-    .contact-info p {
-      font-size: 16px;
-      color: var(--mid);
-      line-height: 1.7;
-      margin-bottom: 36px;
-      transition: color var(--transition);
-    }
-
-    .contact-links {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .contact-link-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px 20px;
-      border-radius: var(--radius-sm);
-      background: var(--bg-card);
-      border: 1px solid var(--light);
-      text-decoration: none;
-      transition: border-color 0.2s, transform 0.15s, background var(--transition), border-color var(--transition);
-    }
-
-    .contact-link-item:hover {
-      border-color: var(--blue);
-      transform: translateX(4px);
-    }
-
-    .link-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: var(--bg-alt);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      transition: background var(--transition);
-      flex-shrink: 0;
-    }
-
-    .link-body {
-      flex: 1;
-    }
-
-    .link-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--mid);
-      margin-bottom: 2px;
-      transition: color var(--transition);
-    }
-
-    .link-value {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--jet);
-      transition: color var(--transition);
-    }
-
-    .link-arrow {
-      color: var(--blue);
-      font-size: 18px;
-    }
-
-
-    /* Contact Form */
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-
-    .form-group label {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      color: var(--mid);
-      transition: color var(--transition);
-    }
-
-    .form-group input,
-    .form-group textarea {
-      background: var(--bg-card);
-      border: 1.5px solid var(--light);
-      border-radius: 12px;
-      padding: 13px 16px;
-      font-family: inherit;
-      font-size: 15px;
-      color: var(--jet);
-      outline: none;
-      resize: none;
-      width: 100%;
-      transition: border-color 0.2s, background var(--transition), color var(--transition);
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-      border-color: var(--blue);
-    }
-
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
-      color: var(--mid);
-    }
-
-    textarea {
-      min-height: 130px;
-    }
-
-    .form-submit {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--jet);
-      color: var(--bg);
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 600;
-      padding: 14px 28px;
-      border-radius: 980px;
-      border: none;
-      cursor: pointer;
-      align-self: flex-start;
-      transition: background var(--transition), color var(--transition), transform 0.15s;
-    }
-
-    .form-submit:hover {
-      transform: translateY(-2px);
-      opacity: 0.85;
-    }
-
-    .form-success {
-      display: none;
-      align-items: center;
-      gap: 10px;
-      background: rgba(52, 199, 89, 0.12);
-      border: 1px solid rgba(52, 199, 89, 0.3);
-      color: #34C759;
-      border-radius: 12px;
-      padding: 14px 18px;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .form-success.show {
-      display: flex;
-    }
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; }
+    .form-group label { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: var(--mid); transition: color var(--transition); }
+    .form-group input, .form-group textarea { background: var(--bg-card); border: 1.5px solid var(--light); border-radius: 12px; padding: 13px 16px; font-family: inherit; font-size: 15px; color: var(--jet); outline: none; resize: none; width: 100%; transition: border-color 0.2s, background var(--transition), color var(--transition); }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--blue); }
+    textarea { min-height: 130px; }
+    .form-submit { display: inline-flex; align-items: center; gap: 8px; background: var(--jet); color: var(--bg); font-family: inherit; font-size: 15px; font-weight: 600; padding: 14px 28px; border-radius: 980px; border: none; cursor: pointer; align-self: flex-start; transition: background var(--transition), color var(--transition), transform 0.15s; }
+    .form-submit:hover { transform: translateY(-2px); opacity: 0.85; }
+    .form-success { display: none; align-items: center; gap: 10px; background: rgba(52, 199, 89, 0.12); border: 1px solid rgba(52, 199, 89, 0.3); color: #34C759; border-radius: 12px; padding: 14px 18px; font-size: 14px; font-weight: 500; }
+    .form-success.show { display: flex; }
 
     /* ── FOOTER ── */
-    footer {
-      background: var(--bg);
-      border-top: 1px solid var(--light);
-      padding: 60px 48px 40px;
-      transition: background var(--transition), border-color var(--transition);
-    }
-
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 24px;
-    }
-
-    .footer-left h3 {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--jet);
-      margin-bottom: 6px;
-      transition: color var(--transition);
-    }
-
-    .footer-left p {
-      font-size: 13px;
-      color: var(--mid);
-      transition: color var(--transition);
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a {
-      font-size: 13px;
-      color: var(--mid);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-links a:hover {
-      color: var(--blue);
-    }
-
-    .footer-copy {
-      width: 100%;
-      padding-top: 28px;
-      border-top: 1px solid var(--light);
-      text-align: center;
-      font-size: 12px;
-      color: var(--mid);
-      transition: color var(--transition), border-color var(--transition);
-    }
+    footer { background: var(--bg); border-top: 1px solid var(--light); padding: 60px 48px 40px; transition: background var(--transition), border-color var(--transition); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-left h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; color: var(--jet); margin-bottom: 6px; transition: color var(--transition); }
+    .footer-left p { font-size: 13px; color: var(--mid); transition: color var(--transition); }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { font-size: 13px; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--blue); }
+    .footer-copy { width: 100%; padding-top: 28px; border-top: 1px solid var(--light); text-align: center; font-size: 12px; color: var(--mid); transition: color var(--transition), border-color var(--transition); }
 
     /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(22px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes bounce {
-
-      0%,
-      100% {
-        transform: rotate(45deg) translateY(0);
-      }
-
-      50% {
-        transform: rotate(45deg) translateY(5px);
-      }
-    }
-
-    .fade-in {
-      opacity: 0;
-      transform: translateY(26px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .d1 {
-      transition-delay: 0.08s;
-    }
-
-    .d2 {
-      transition-delay: 0.16s;
-    }
-
-    .d3 {
-      transition-delay: 0.24s;
-    }
-
-    .d4 {
-      transition-delay: 0.32s;
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes bounce { 0%, 100% { transform: rotate(45deg) translateY(0); } 50% { transform: rotate(45deg) translateY(5px); } }
+    .fade-in { opacity: 0; transform: translateY(26px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.08s; }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      nav {
-        padding: 0 20px;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      section {
-        padding: 72px 20px;
-      }
-
-      .divider {
-        margin: 0 20px;
-      }
-
-      .code-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .bento-grid {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-      }
-
-      .bento-cell.large {
-        grid-row: span 1;
-        height: 300px;
-      }
-
-      .bento-cell {
-        height: 200px;
-      }
-
-      .contact-layout {
-        grid-template-columns: 1fr;
-        gap: 48px;
-      }
-
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-
-      footer {
-        padding: 48px 20px 32px;
-      }
-
-      .lamp-wrap {
-        right: 24px;
-      }
-    }
+    @media (max-width: 1100px) { nav { padding: 0 24px; } section { padding: 80px 24px; } .divider { margin: 0 24px; } }
+    @media (max-width: 1024px) { .hero h1 { font-size: clamp(38px, 6vw, 60px); } .bento-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; } .bento-cell.large { grid-column: span 2; height: 350px; } .bento-cell { height: 320px; } }
+    @media (max-width: 900px) { .nav-links { display: none; } .lamp-wrap { right: 110px; scale: 0.9; } .code-grid { grid-template-columns: 1fr; } .contact-layout { grid-template-columns: 1fr; gap: 40px; } .form-row { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) { nav { height: 60px; padding: 0 16px; } .nav-logo { font-size: 18px; } .hero { padding-top: 100px; padding-bottom: 60px; } .hero h1 { font-size: 36px; } .hero-actions { flex-direction: column; width: 100%; max-width: 300px; } .btn-primary, .btn-ghost { width: 100%; justify-content: center; } .lamp-wrap { right: 85px; top: -5px; } .cord { height: 40px; } .bento-grid { grid-template-columns: 1fr; } .bento-cell.large { grid-column: span 1; height: 280px; } .bento-cell { height: 300px; } .stack-card-info h2 { font-size: 18px; } section { padding: 60px 20px; } .divider { margin: 0 20px; } footer { padding: 40px 20px; } }
   </style>
 </head>
 
@@ -1320,10 +756,9 @@
   <section class="hero" id="home">
     <div class="hero-bg-orb orb1"></div>
     <div class="hero-bg-orb orb2"></div>
-    
     <h1>Developer by <em>Logic.</em><br>Designer by Craft.</h1>
-    <p class="hero-sub">2nd Year Computer Science Engineering student blending high-performance code with professional
-      visual design — building things that work beautifully.</p>
+    <p class="hero-sub">Computer Science Engineering student bridging the gap between performant software engineering 
+    and clean visual design to build software that is both fast and intuitive..</p>
     <div class="hero-pills">
       <span class="hero-pill">TypeScript</span>
       <span class="hero-pill">React</span>
@@ -1348,22 +783,18 @@
     <div class="fade-in">
       <p class="section-label">Technical Repositories</p>
       <h2 class="section-title">Code that performs.</h2>
-      <p class="section-desc">Real projects — shipped. From AI-powered document analysis to full-stack news intelligence
-        apps, built with precision in TypeScript and Python.</p>
+      <p class="section-desc">Real projects — shipped. From AI-powered document analysis to full-stack news intelligence apps, built with precision in TypeScript and Python.</p>
     </div>
 
     <div class="code-grid fade-in d1">
-
       <div class="code-card">
         <div class="code-card-top">
           <span class="lang-pill ts">TypeScript</span>
           <span class="repo-meta">🔗 github.com</span>
         </div>
         <h3>WorkLens</h3>
-        <p>AI-powered analyzer for work documents, meeting recordings, and voice messages. Extracts key actions,
-          summaries, and decisions from unstructured workplace content.</p>
-        <a href="https://github.com/Shivam9754/WorkLens" target="_blank" class="card-link">View on GitHub
-          <span>›</span></a>
+        <p>AI-powered analyzer for work documents, meeting recordings, and voice messages. Extracts key actions, summaries, and decisions from unstructured workplace content.</p>
+        <a href="https://github.com/Shivam9754/WorkLens" target="_blank" class="card-link">View on GitHub <span>›</span></a>
       </div>
 
       <div class="code-card">
@@ -1372,10 +803,8 @@
           <span class="repo-meta">🔗 github.com</span>
         </div>
         <h3>News Sentiment Analyser</h3>
-        <p>Full-stack sentiment analysis app with an offline Python NLP pipeline (VADER, Sumy, YAKE), React frontend,
-          Node.js/Express backend, JWT auth, and a social post feed with trending topic tracking.</p>
-        <a href="https://github.com/Shivam9754/News-Sentiment-Analyser" target="_blank" class="card-link">View on GitHub
-          <span>›</span></a>
+        <p>Full-stack sentiment analysis app with an offline Python NLP pipeline (VADER, Sumy, YAKE), React frontend, Node.js/Express backend, JWT auth, and a social post feed.</p>
+        <a href="https://github.com/Shivam9754/News-Sentiment-Analyser" target="_blank" class="card-link">View on GitHub <span>›</span></a>
       </div>
 
       <div class="code-card">
@@ -1384,10 +813,8 @@
           <span class="repo-meta">🔗 github.com</span>
         </div>
         <h3>WorkLenses — Scaler</h3>
-        <p>Extended WorkLens build submitted for Scaler certification — integrates collaborative workspace tooling with
-          multi-user document parsing and async task queue architecture.</p>
-        <a href="https://github.com/Shivam9754/WorkLenses" target="_blank" class="card-link">View on GitHub
-          <span>›</span></a>
+        <p>Extended WorkLens build submitted for Scaler certification — integrates collaborative workspace tooling with multi-user document parsing architecture.</p>
+        <a href="https://github.com/Shivam9754/WorkLenses" target="_blank" class="card-link">View on GitHub <span>›</span></a>
       </div>
 
       <div class="code-card">
@@ -1396,12 +823,9 @@
           <span class="repo-meta">🔗 github.com</span>
         </div>
         <h3>GFG Project</h3>
-        <p>GeeksForGeeks certification project — demonstrating core CS fundamentals through a structured, end-to-end
-          TypeScript application with modular architecture patterns.</p>
-        <a href="https://github.com/Shivam9754/GFG-Project" target="_blank" class="card-link">View on GitHub
-          <span>›</span></a>
+        <p>GeeksForGeeks certification project — demonstrating core CS fundamentals through a structured, end-to-end TypeScript application.</p>
+        <a href="https://github.com/Shivam9754/GFG-Project" target="_blank" class="card-link">View on GitHub <span>›</span></a>
       </div>
-
     </div>
   </section>
 
@@ -1412,27 +836,24 @@
     <div class="fade-in">
       <p class="section-label">Visual Mastery</p>
       <h2 class="section-title">Where pixels meet intent.</h2>
-      <p class="section-desc">Digital compositing, UI mockups, and visual storytelling — executed with Photoshop and a
-        designer's eye for detail.</p>
+      <p class="section-desc">Digital compositing, UI mockups, and visual storytelling — executed with Photoshop and a designer's eye for detail.</p>
     </div>
 
     <div class="bento-grid fade-in d1">
-
-      <!-- LARGE -->
-      <div class="bento-cell large" style="background:#0a0a14;">
-        <canvas class="bento-canvas" id="canvas1"></canvas>
+      <!-- UPDATED BLUE SECTION WITH YOUR WEBSITE -->
+      <a href="https://csv-analyser-gilt.vercel.app/" target="_blank" class="bento-cell large">
+        <img src="photoshop/project1.png" alt="Conversational BI Analyser" class="bento-img">
         <div class="bento-caption">
-          <span class="bento-tag">UI Composite</span>
-          <h3>Dashboard Re-design</h3>
-          <p>Full Photoshop UI overhaul of a SaaS analytics dashboard — dark mode, custom icons, data-dense layout</p>
+          <span class="bento-tag">Featured Project</span>
+          <h3>Conversational BI Analyser</h3>
+          <p>Full-stack AI tool for conversational data analysis, CSV visualization, and automated insights generation.</p>
         </div>
-      </div>
+      </a>
 
       <!-- FIGMA WORK -->
       <div class="bento-cell scrolling-cell" style="background:#0d1117;">
         <div class="bento-header-tag">Figma Work</div>
         <div class="stack-container" id="figma-stack">
-          <!-- Figma cards injected by JS -->
           <div class="stack-nav" id="figma-nav"></div>
         </div>
       </div>
@@ -1441,25 +862,21 @@
       <div class="bento-cell scrolling-cell" style="background:#08080f;">
         <div class="bento-header-tag">Photoshop Work</div>
         <div class="stack-container" id="photoshop-stack">
-          <!-- Photoshop cards injected by JS -->
           <div class="stack-nav" id="photoshop-nav"></div>
         </div>
       </div>
-
     </div>
   </section>
 
   <div class="divider"></div>
 
-  
   <!-- CONTACT -->
   <section id="contact">
     <div class="contact-layout">
       <div class="contact-info fade-in">
         <p class="section-label">Get In Touch</p>
         <h2>Let's build something together.</h2>
-        <p>Whether it's a project collab, internship opportunity, or just a conversation about code and design — I'm
-          open. Drop me a message.</p>
+        <p>Whether it's a project collab, internship opportunity, or just a conversation about code and design — I'm open. Drop me a message.</p>
 
         <div class="contact-links">
           <a href="https://github.com/Shivam9754" target="_blank" class="contact-link-item">
@@ -1471,7 +888,7 @@
             <span class="link-arrow">›</span>
           </a>
 
-          <a href="mailto:skshivam9754@gmail.com" class="contact-link-item" id="mailLink">
+          <a href="mailto:skshivam9754@gmail.com" class="contact-link-item">
             <div class="link-icon">✉️</div>
             <div class="link-body">
               <p class="link-label">Email</p>
@@ -1480,7 +897,7 @@
             <span class="link-arrow">›</span>
           </a>
 
-          <a href="https://linkedin.com" target="_blank" class="contact-link-item">
+          <a href="https://www.linkedin.com/in/shivam-kumar-528b61380/" target="_blank" class="contact-link-item">
             <div class="link-icon">in</div>
             <div class="link-body">
               <p class="link-label">LinkedIn</p>
@@ -1497,20 +914,20 @@
           <div class="form-row">
             <div class="form-group">
               <label for="fname">First Name</label>
-              <input type="text" id="fname" placeholder="Alex" />
+              <input type="text" id="fname" placeholder="First Name" />
             </div>
             <div class="form-group">
               <label for="lname">Last Name</label>
-              <input type="text" id="lname" placeholder="Johnson" />
+              <input type="text" id="lname" placeholder="Last Name" />
             </div>
           </div>
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" id="email" placeholder="alex@email.com" />
+            <input type="email" id="email" placeholder="email@example.com" />
           </div>
           <div class="form-group">
             <label for="subject">Subject</label>
-            <input type="text" id="subject" placeholder="Project Collaboration / Internship / Say Hi" />
+            <input type="text" id="subject" placeholder="Project Collaboration" />
           </div>
           <div class="form-group">
             <label for="msg">Message</label>
@@ -1545,15 +962,12 @@
     const cord = document.getElementById('cord');
     const label = document.getElementById('lampLabel');
     const html = document.documentElement;
-
     const saved = localStorage.getItem('theme') || 'light';
     html.setAttribute('data-theme', saved);
     label.textContent = saved === 'dark' ? 'Dark' : 'Light';
 
     lamp.addEventListener('click', () => {
       const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-
-      // Pull animation
       cord.style.height = '90px';
       setTimeout(() => {
         html.setAttribute('data-theme', next);
@@ -1563,66 +977,54 @@
       }, 150);
     });
 
-    // Support keyboard activation for the theme pull toggle
-    lamp.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        lamp.click();
-      }
-    });
-
     /* ── STACKED CARD SLIDER ── */
     const figmaData = [
-      { name: 'E-Commerce Checkout Card', desc: 'A clean and structured payment interface card featuring a minimalist layout, product preview, and simplified Visa checkout details.', img: 'figma/practice.jpg' },
-      { name: 'Natural Environment Hero Banner', desc: 'A website hero section design combining striking architectural photography with clear typography to create an eco-conscious digital landing page.', img: 'figma/practice1.jpg' },
-      { name: 'Ride-Hailing Receipt Card', desc: 'A dark-themed digital receipt showing driver details, fare breakdown, and transit statistics with high-contrast color accents.', img: 'figma/practice2.jpg' },
-      { name: 'Dark Mode Activity Dashboard', desc: ' A compact dark-theme dashboard designed to present personal user metrics, data charts, and profile options inside a soft gradient border.', img: 'figma/practice3.jpg' },
-      { name: 'Minimalist Workspace Interface', desc: 'A clean, light-themed note-taking app UI focusing on structured content hierarchy, readability, and a functional three-column layout.', img: 'figma/practice4.jpg' }
+      { name: 'E-Commerce Checkout Card', desc: 'A clean and structured payment interface card featuring a minimalist layout, product preview, and simplified Visa checkout details.', img: 'figma/practice.jpg', link: 'https://www.figma.com/design/WehK5Lt34iiFTQErHFADfS/1?node-id=0-1&t=C9ifGvvnR4OjS5IE-1' },
+      { name: 'Natural Environment Hero', desc: 'A website hero section design combining striking architectural photography with clear typography to create an eco-conscious digital landing page.', img: 'figma/practice1.jpg', link: 'https://www.figma.com/design/2OaqHpEQw3h4NIjhqB4EhY/Untitled?t=C9ifGvvnR4OjS5IE-1' },
+      { name: 'Ride-Hailing Receipt Card', desc: 'A dark-themed digital receipt showing driver details, fare breakdown, and transit statistics with high-contrast color accents.', img: 'figma/practice2.jpg', link: 'https://www.figma.com/design/532G4VefSfmYffhWAw93aT/Untitled?node-id=301-12&t=C9ifGvvnR4OjS5IE-1' },
+      { name: 'Dark Mode Activity Dashboard', desc: 'A compact dark-theme dashboard designed to present personal user metrics, data charts, and profile options inside a soft gradient border.', img: 'figma/practice3.jpg', link: 'https://www.figma.com/design/AV8A6ee76Jb4qnmafCL2Ze/Untitled?node-id=0-1&t=C9ifGvvnR4OjS5IE-1' },
+      { name: 'Minimalist Workspace Interface', desc: 'A clean, light-themed note-taking app UI focusing on structured content hierarchy, readability, and a functional three-column layout.', img: 'figma/practice4.jpg', link: 'https://www.figma.com/design/3RokVBrSpVYLP0fRaMB5zq/Notes?t=C9ifGvvnR4OjS5IE-1' }
     ];
 
-    const photoshopData = [
-      { name: 'Electric Horizon', desc: 'A high-contrast, dynamic scene featuring a sports car parked under a dramatic, lightning-charged storm sky.', img: 'photoshop/Project 34.png' },
-      { name: 'Urban Fragment', desc: 'A portrait-oriented mixed-media collage combining a modern muscle car with grunge textures, architectural sketches, and expressive blue paint splatters.', img: 'photoshop/Project 48.png' },
-      { name: 'Moonlight Anchorage', desc: 'An atmospheric digital composition blending a historic galleon with a misty, moonlit coastline to evoke a sense of quiet mystery.', img: 'photoshop/Project 29.png' },
-      { name: 'Golden Hour Pause', desc: 'A warm, nostalgic silhouette of a cyclist reflecting at sunset in a quiet, mist-covered rural setting.', img: 'photoshop/Project 36.png' },
-      { name: 'The Quiet Beacon', desc: 'A moody, cinematic landscape focusing on a misty rural road illuminated by the strong glow of a single streetlamp.', img: 'photoshop/Project 35.png' }
+   const photoshopData = [
+      { name: 'Electric Horizon', desc: 'A high-contrast, dynamic scene featuring a sports car parked under a dramatic, lightning-charged storm sky.', img: 'photoshop/Project 34.png', link: 'https://www.behance.net/gallery/252135451/Electric-Horizon', height: '320px' },
+      { name: 'Urban Fragment', desc: 'A portrait-oriented mixed-media collage combining a modern muscle car with grunge textures, architectural sketches, and expressive blue paint splatters.', img: 'photoshop/Project 48.png', link: 'https://www.behance.net/gallery/252135861/Urban-Fragment', height: '370px' },
+      { name: 'Moonlight Anchorage', desc: 'An atmospheric digital composition blending a historic galleon with a misty, moonlit coastline to evoke a sense of quiet mystery.', img: 'photoshop/Project 29.png', link: 'https://www.behance.net/gallery/252135609/Moonlight-Anchorage' },
+      { name: 'Golden Hour Pause', desc: 'A warm, nostalgic silhouette of a cyclist reflecting at sunset in a quiet, mist-covered rural setting.', img: 'photoshop/Project 36.png', link: 'https://www.behance.net/gallery/252135745/Golden-Hour-Pause' },
+      { name: 'The Quiet Beacon', desc: 'A moody, cinematic landscape focusing on a misty rural road illuminated by the strong glow of a single streetlamp.', img: 'photoshop/Project 35.png', link: 'https://www.behance.net/gallery/252135689/The-Quiet-Beacon' }
     ];
 
     function initStack(stackId, navId, items) {
       const stack = document.getElementById(stackId);
       const nav = document.getElementById(navId);
       let current = 0;
-
       const cards = [];
 
-      // create cards + dots
       items.forEach((item, i) => {
         const card = document.createElement('div');
         card.className = 'stack-card';
+        card.setAttribute('data-project-url', item.link);
+        
+        // Dynamically apply inline height if defined in the data array
+        const imgStyle = item.height ? `style="height: ${item.height};"` : '';
 
-        // Corrected paragraph element styles in template literal
         card.innerHTML = `
-          <div class="stack-card-preview">
-            <img src="${item.img}" alt="${item.name}" loading="lazy">
-          </div>
-          <div class="stack-card-info">
-            <h2>${item.name}</h2>
-            <p>${item.desc}</p>
-          </div>
+          <div class="stack-card-preview"><img src="${item.img}" alt="${item.name}" loading="lazy" ${imgStyle}></div>
+          <div class="stack-card-info"><h2>${item.name}</h2><p>${item.desc}</p><div class="card-link" style="color: #0071E3; margin-top:12px; font-weight:600;">View Project ›</div></div>
         `;
-
         stack.appendChild(card);
-
+        card.addEventListener('mousedown', (e) => {
+          if (e.target.closest('.nav-dot')) return;
+          if (card.classList.contains('active')) {
+            window.open(card.getAttribute('data-project-url'), '_blank');
+          } else if (card.classList.contains('next')) {
+            current = (current + 1) % items.length;
+            update();
+          }
+        });
         const dot = document.createElement('div');
         dot.className = 'nav-dot';
-
-        // Make the slider dots interactive
-        dot.addEventListener('click', (e) => {
-          e.stopPropagation(); // Avoid triggering card click
-          current = i;
-          update();
-        });
-
+        dot.addEventListener('mousedown', (e) => { e.stopPropagation(); current = i; update(); });
         nav.appendChild(dot);
         cards.push({ card, dot });
       });
@@ -1630,146 +1032,35 @@
       function update() {
         cards.forEach((c, i) => {
           c.card.classList.remove('active', 'next', 'prev');
-
-          if (i === current) {
-            c.card.classList.add('active');
-            c.dot.classList.add('active');
-          }
-          else {
-            c.dot.classList.remove('active');
-          }
-
-          if (i === (current + 1) % items.length) {
-            c.card.classList.add('next');
-          }
-
-          if (i === (current - 1 + items.length) % items.length) {
-            c.card.classList.add('prev');
-          }
+          if (i === current) { c.card.classList.add('active'); c.dot.classList.add('active'); }
+          else { c.dot.classList.remove('active'); }
+          if (i === (current + 1) % items.length) c.card.classList.add('next');
+          if (i === (current - 1 + items.length) % items.length) c.card.classList.add('prev');
         });
       }
-
       update();
-
-      // autoplay
-      let interval = setInterval(() => {
-        current = (current + 1) % items.length;
-        update();
-      }, 4000);
-
-      stack.addEventListener('mouseenter', () => clearInterval(interval));
-
-      stack.addEventListener('mouseleave', () => {
-        interval = setInterval(() => {
-          current = (current + 1) % items.length;
-          update();
-        }, 4000);
-      });
-
-      stack.addEventListener('click', () => {
-        current = (current + 1) % items.length;
-        update();
-      });
     }
-
     initStack('figma-stack', 'figma-nav', figmaData);
     initStack('photoshop-stack', 'photoshop-nav', photoshopData);
 
     /* ── SCROLL FADE-IN ── */
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
-
-    /* ── NAV ACTIVE ── */
-    const sections = document.querySelectorAll('section[id]');
-    const navAs = document.querySelectorAll('.nav-links a');
-    window.addEventListener('scroll', () => {
-      let cur = '';
-      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
-      navAs.forEach(a => {
-        a.classList.toggle('active', a.getAttribute('href') === `#${cur}`);
-      });
-    });
 
     /* ── CONTACT FORM ── */
     document.getElementById('submitBtn').addEventListener('click', () => {
       const fname = document.getElementById('fname').value.trim();
       const email = document.getElementById('email').value.trim();
       const msg = document.getElementById('msg').value.trim();
-      if (!fname || !email || !msg) {
-        document.getElementById('fname').style.borderColor = !fname ? '#FF3B30' : '';
-        document.getElementById('email').style.borderColor = !email ? '#FF3B30' : '';
-        document.getElementById('msg').style.borderColor = !msg ? '#FF3B30' : '';
-        return;
-      }
-      // Reset borders
-      ['fname', 'email', 'msg'].forEach(id => document.getElementById(id).style.borderColor = '');
-      // Build mailto
+      if (!fname || !email || !msg) return;
       const sub = document.getElementById('subject').value || 'Portfolio Contact';
-      const lname = document.getElementById('lname').value;
-      const body = `From: ${fname} ${lname}\nEmail: ${email}\n\n${msg}`;
+      const body = `From: ${fname}\nEmail: ${email}\n\n${msg}`;
       window.location.href = `mailto:skshivam9754@gmail.com?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
       document.getElementById('formSuccess').classList.add('show');
       setTimeout(() => document.getElementById('formSuccess').classList.remove('show'), 5000);
     });
-
-    /* ── BENTO CANVAS ART ── */
-    function drawCanvas1() {
-      const c = document.getElementById('canvas1');
-      const el = c.parentElement;
-      c.width = el.offsetWidth; c.height = el.offsetHeight;
-      const ctx = c.getContext('2d');
-      // Dark gradient bg
-      const bg = ctx.createLinearGradient(0, 0, c.width, c.height);
-      bg.addColorStop(0, '#0a0a1f'); bg.addColorStop(1, '#0d1f3c');
-      ctx.fillStyle = bg; ctx.fillRect(0, 0, c.width, c.height);
-      // Grid
-      ctx.strokeStyle = 'rgba(0,113,227,0.12)'; ctx.lineWidth = 1;
-      for (let x = 0; x < c.width; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, c.height); ctx.stroke(); }
-      for (let y = 0; y < c.height; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(c.width, y); ctx.stroke(); }
-      // Glow orb
-      const g = ctx.createRadialGradient(c.width * 0.35, c.height * 0.4, 0, c.width * 0.35, c.height * 0.4, 180);
-      g.addColorStop(0, 'rgba(0,113,227,0.4)'); g.addColorStop(1, 'rgba(0,113,227,0)');
-      ctx.fillStyle = g; ctx.fillRect(0, 0, c.width, c.height);
-      // Mock UI cards
-      const cards = [{ x: 40, y: 60, w: 160, h: 80 }, { x: 220, y: 60, w: 120, h: 80 }, { x: 360, y: 60, w: 100, h: 80 }];
-      cards.forEach(({ x, y, w, h }) => {
-        ctx.fillStyle = 'rgba(255,255,255,0.06)'; roundRect(ctx, x, y, w, h, 10); ctx.fill();
-        ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 1; roundRect(ctx, x, y, w, h, 10); ctx.stroke();
-        ctx.fillStyle = 'rgba(0,113,227,0.7)'; ctx.fillRect(x + 14, y + 18, w * 0.4, 6);
-        ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.fillRect(x + 14, y + 32, w * 0.65, 4);
-        ctx.fillStyle = 'rgba(255,255,255,0.15)'; ctx.fillRect(x + 14, y + 44, w * 0.5, 4);
-      });
-      // Chart bars
-      const barW = 18, barGap = 10, barX = 40, barY = c.height - 120;
-      const heights = [60, 90, 50, 110, 80, 95, 40, 75];
-      heights.forEach((h, i) => {
-        const bx = barX + i * (barW + barGap), by = barY - h;
-        const bg2 = ctx.createLinearGradient(0, by, 0, barY);
-        bg2.addColorStop(0, 'rgba(0,113,227,0.9)'); bg2.addColorStop(1, 'rgba(0,113,227,0.2)');
-        ctx.fillStyle = bg2; roundRect(ctx, bx, by, barW, h, 4); ctx.fill();
-      });
-    }
-
-    function roundRect(ctx, x, y, w, h, r) {
-      ctx.beginPath();
-      ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y);
-      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-      ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-      ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-      ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y);
-      ctx.closePath();
-    }
-
-    // Draw after layout settles
-    window.addEventListener('load', () => {
-      drawCanvas1();
-    });
-    window.addEventListener('resize', () => {
-      drawCanvas1();
-    });
   </script>
 </body>
-
 </html>
