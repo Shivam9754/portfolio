@@ -649,32 +649,87 @@
     .stack-card-preview img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.8s ease; }
     .stack-card:hover .stack-card-preview img { transform: scale(1.04); }
 
-    /* FIX: Focuses the crop center at 85% depth to align and center the sports car dynamically */
-   #photoshop-stack .stack-card-preview img {
-  object-fit: cover !important;
+    /* FIX: Focuses the crop center at 90% depth to align and center the sports car dynamically */
+    #photoshop-stack .stack-card-preview img {
+      object-fit: cover !important;
+      transform: scale() !important; 
+      object-position: center 90% !important; 
+    }
 
-  /* 1. MANUAL ZOOM LEVEL (e.g., 0.9 to zoom out, 1.1 to zoom in) */
-  transform: scale() !important; 
+    /* 1. Fix "Electric Horizon" (Car under lightning storm) */
+    #photoshop-stack img[src*="Project 34"] {
+      object-fit: cover !important;
+      object-position: center 90% !important; 
+    }
 
-  /* 2. MANUAL VERTICAL POSITION */
-  /* Change the percentage (e.g. 80%, 90%, 95%, 100%) to slide the image up/down 
-     until the car is perfectly framed in the center. */
-  object-position: center 90% !important; 
-}
-/* 1. Fix "Electric Horizon" (Car under lightning storm) */
-#photoshop-stack img[src*="Project 34"] {
-  object-fit: cover !important;
-  /* Adjust this percentage (e.g., 85% to 95%) to slide the car vertically into the center */
-  object-position: center 90% !important; 
-}
+    /* 2. Fix "Urban Fragment" (Portrait collage with the muscle car) */
+    #photoshop-stack img[src*="Project 48"] {
+      object-fit: contain !important;
+      background-color: #08080f !important; 
+    }
 
-/* 2. Fix "Urban Fragment" (Portrait collage with the muscle car) */
-/* Since this image is vertical/portrait, standard cropping zooms it in too close. 
-   Using "contain" displays the full design without any awkward cropping. */
-#photoshop-stack img[src*="Project 48"] {
-  object-fit: contain !important;
-  background-color: #08080f !important; /* Blends seamlessly with your dark bento background */
-}
+    /* Hide text box description elements only for design portfolios */
+    #figma-stack .stack-card-info,
+    #photoshop-stack .stack-card-info {
+      display: none !important;
+    }
+
+    /* FIX: Eliminate empty blank space under the Featured Projects stack and stretch image */
+    #featured-stack .stack-card {
+      display: flex !important;
+      flex-direction: column !important;
+      height: 100% !important;
+    }
+
+    #featured-stack .stack-card-preview {
+      flex: 1 !important; /* Instructs the image preview to stretch and fill all available top space */
+      height: auto !important; 
+      width: 100% !important;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #featured-stack .stack-card-preview img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+
+    /* Elegant Text Captions specifically for Featured Projects Stack */
+    #featured-stack .stack-card-info {
+      position: relative !important; /* Sits flush at the bottom in the normal document flow */
+      background: #05050a !important; /* Premium matching background */
+      padding: 24px 30px 30px 30px !important;
+      z-index: 10;
+      color: #fff;
+      display: block !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.08) !important; /* Elegant subtle divider */
+      pointer-events: none; /* Let drag/click events propagate to main trigger */
+    }
+
+    #featured-stack .stack-card-info h2 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #ffffff !important;
+      margin-bottom: 6px;
+    }
+
+    #featured-stack .stack-card-info p {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8) !important;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    #featured-stack .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #2997FF !important;
+    }
 
     .stack-nav { position: absolute; bottom: 24px; right: 40px; display: flex; gap: 12px; z-index: 30; }
     .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transition: all 0.4s ease; cursor: pointer; }
@@ -758,7 +813,7 @@
     <div class="hero-bg-orb orb2"></div>
     <h1>Developer by <em>Logic.</em><br>Designer by Craft.</h1>
     <p class="hero-sub">Computer Science Engineering student bridging the gap between performant software engineering 
-    and clean visual design to build software that is both fast and intuitive..</p>
+    and clean visual design to build software that is both fast and intuitive.</p>
     <div class="hero-pills">
       <span class="hero-pill">TypeScript</span>
       <span class="hero-pill">React</span>
@@ -840,15 +895,13 @@
     </div>
 
     <div class="bento-grid fade-in d1">
-      <!-- UPDATED BLUE SECTION WITH YOUR WEBSITE -->
-      <a href="https://csv-analyser-gilt.vercel.app/" target="_blank" class="bento-cell large">
-        <img src="photoshop/project1.png" alt="Conversational BI Analyser" class="bento-img">
-        <div class="bento-caption">
-          <span class="bento-tag">Featured Project</span>
-          <h3>Conversational BI Analyser</h3>
-          <p>Full-stack AI tool for conversational data analysis, CSV visualization, and automated insights generation.</p>
+      <!-- FEATURED PROJECTS STACK (LARGE CELL) -->
+      <div class="bento-cell large scrolling-cell" style="background:#05050a;">
+        <div class="bento-header-tag">Featured Projects</div>
+        <div class="stack-container" id="featured-stack">
+          <div class="stack-nav" id="featured-nav"></div>
         </div>
-      </a>
+      </div>
 
       <!-- FIGMA WORK -->
       <div class="bento-cell scrolling-cell" style="background:#0d1117;">
@@ -986,12 +1039,28 @@
       { name: 'Minimalist Workspace Interface', desc: 'A clean, light-themed note-taking app UI focusing on structured content hierarchy, readability, and a functional three-column layout.', img: 'figma/practice4.jpg', link: 'https://www.figma.com/design/3RokVBrSpVYLP0fRaMB5zq/Notes?t=C9ifGvvnR4OjS5IE-1' }
     ];
 
-   const photoshopData = [
+    const photoshopData = [
       { name: 'Electric Horizon', desc: 'A high-contrast, dynamic scene featuring a sports car parked under a dramatic, lightning-charged storm sky.', img: 'photoshop/Project 34.png', link: 'https://www.behance.net/gallery/252135451/Electric-Horizon', height: '320px' },
       { name: 'Urban Fragment', desc: 'A portrait-oriented mixed-media collage combining a modern muscle car with grunge textures, architectural sketches, and expressive blue paint splatters.', img: 'photoshop/Project 48.png', link: 'https://www.behance.net/gallery/252135861/Urban-Fragment', height: '370px' },
       { name: 'Moonlight Anchorage', desc: 'An atmospheric digital composition blending a historic galleon with a misty, moonlit coastline to evoke a sense of quiet mystery.', img: 'photoshop/Project 29.png', link: 'https://www.behance.net/gallery/252135609/Moonlight-Anchorage' },
       { name: 'Golden Hour Pause', desc: 'A warm, nostalgic silhouette of a cyclist reflecting at sunset in a quiet, mist-covered rural setting.', img: 'photoshop/Project 36.png', link: 'https://www.behance.net/gallery/252135745/Golden-Hour-Pause' },
       { name: 'The Quiet Beacon', desc: 'A moody, cinematic landscape focusing on a misty rural road illuminated by the strong glow of a single streetlamp.', img: 'photoshop/Project 35.png', link: 'https://www.behance.net/gallery/252135689/The-Quiet-Beacon' }
+    ];
+
+    // Data for Left-Hand Featured Projects stack
+    const featuredData = [
+      { 
+        name: 'Conversational BI Analyser', 
+        desc: 'Full-stack AI tool for conversational data analysis, CSV visualization, and automated insights generation.', 
+        img: 'photoshop/project1.png', 
+        link: 'https://csv-analyser-gilt.vercel.app/' 
+      },
+      { 
+        name: 'Premium Automotive Showcase', 
+        desc: 'An interactive automotive digital showroom featuring customizable configuration, performance visualizers, and seamless scroll experiences.', 
+        img: 'photoshop/project2.png', 
+        link: 'https://car-website-pink-psi.vercel.app/' 
+      }
     ];
 
     function initStack(stackId, navId, items) {
@@ -1040,6 +1109,9 @@
       }
       update();
     }
+
+    // Initialize all stacks cleanly
+    initStack('featured-stack', 'featured-nav', featuredData);
     initStack('figma-stack', 'figma-nav', figmaData);
     initStack('photoshop-stack', 'photoshop-nav', photoshopData);
 
